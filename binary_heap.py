@@ -1,39 +1,64 @@
+from dft_iterator import IteratorDFT
+
 class BinaryHeap():
 
-   def __init__(self, heap_list):
-      self.heap_list = heap_list
-      self.heap_size = len(self.heap_list)
-      self.build_heap()
+   def __init__(self):
+      self.heap_list = []
 
-   def heapify(self, root_index):
+   def heapify(self, elem_index):
       
-      left_child_index = (2 * root_index) + 1
-      right_child_index = (2 * root_index) + 2
+      if elem_index % 2 == 0:
+         root_index = int((elem_index - 2) / 2)
+      else:
+         root_index = int((elem_index - 1) / 2)
 
-      if left_child_index < self.heap_size and self.heap_list[left_child_index] < self.heap_list[root_index]:
-         self.heap_list[root_index], self.heap_list[left_child_index] = self.heap_list[left_child_index], self.heap_list[root_index]
-         self.heapify(left_child_index)
+      if root_index >= 0: 
+         if self.heap_list[elem_index] < self.heap_list[root_index]:
+            self.heap_list[elem_index], self.heap_list[root_index] = self.heap_list[root_index], self.heap_list[elem_index]
+            self.heapify(root_index)
 
-      if right_child_index < self.heap_size and self.heap_list[right_child_index] < self.heap_list[root_index]:
-         self.heap_list[root_index], self.heap_list[right_child_index] = self.heap_list[right_child_index], self.heap_list[root_index]
-         self.heapify(right_child_index)
+   def insert(self, value):
+      if len(self.heap_list) == 0:
+         self.heap_list.append(value)
+      else:
+         self.heap_list.append(value)
+         self.heapify(len(self.heap_list) - 1)
 
-   def build_heap(self):
+   # search == contains, but returns the key element
+   def search(self, value):
+      pass
 
-      for i in range(self.heap_size // 2, -1, -1):
-         self.heapify(i)
+   def remove(self, value):
+      pass
 
+   # returns the index of the current element
+   def create_dft_iterator(self):
+      return IteratorDFT(len(self.heap_list))
+
+   def create_bft_iterator(self):
+      pass
+
+   # checks if a binary tree satisfies properties
    def check_heap(self):
 
-      for i in range(0, self.heap_size // 2 - 1):
-         if self.heap_list[i] > self.heap_list[2 * i + 1] or self.heap_list[i] > self.heap_list[2 * i + 2]:
+      for i in range(0, len(self.heap_list) // 2):
+         if self.heap_list[i] > self.heap_list[2 * i + 1]:
             return False
+         if (2 * i + 2 < len(self.heap_list)):
+            if self.heap_list[i] > self.heap_list[2 * i + 2]:
+               return False
       return True
 
-my_list = [8, 5, 2, 9, 3, 65, 1, 66, 599, 80]
+my_list = [8, 5, 2, 9, 3, 65, 1, 66, 599, 80, 10, 70, 77, 36, 6]
 
-my_heap = BinaryHeap(my_list)
+my_heap = BinaryHeap()
 
-print(f"My heap: {my_heap.heap_list}")
+for i in my_list:
+   my_heap.insert(i)
 
-print(f"Check heap: {my_heap.check_heap()}")
+my_iterator = my_heap.create_dft_iterator()
+
+print(my_heap.heap_list)
+
+for i in range(0, len(my_heap.heap_list)):
+   print(my_heap.heap_list[next(my_iterator)])
