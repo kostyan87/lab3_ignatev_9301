@@ -1,15 +1,16 @@
 import sys; sys.path.append(r'.\data_structures')
 
-from data_structures.stack import Stack
+from data_structures.queue import Queue
 
-class IteratorDFT:
+class IteratorBFT:
 
     def __init__(self, heap_size, heap_list):
         self.current_elem = 0
         self.heap_list = heap_list
         self.end = heap_size - 1
         self.count = 0
-        self.stack = Stack()
+        self.queue = Queue()
+        self.queue.push(0)
 
     def __iter__(self):
         return self
@@ -28,15 +29,15 @@ class IteratorDFT:
         if self.count <= self.end:
             current_elem = self.current_elem
 
-            if self.has_right_child(self.current_elem):
-                self.stack.push((2 * self.current_elem) + 2)
-            
             if self.has_left_child(self.current_elem):
-                self.current_elem = (2 * self.current_elem) + 1
-            else:
-                if self.count != self.end:
-                    self.current_elem = self.stack.get_top()
-                    self.stack.pop()
+                self.queue.push((2 * self.current_elem) + 1)
+
+            if self.has_right_child(self.current_elem):
+                self.queue.push((2 * self.current_elem) + 2)
+            
+            self.queue.pop()
+            if self.count != self.end:
+               self.current_elem = self.queue.get_top()
             
             self.count += 1
             
