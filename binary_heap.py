@@ -61,7 +61,6 @@ class BinaryHeap():
          raise Exception('No such item in the heap')
       if remove_index == len(self.heap_list) - 1:
          del self.heap_list[len(self.heap_list) - 1]
-         print('fuck')
       else:
          self.heap_list[remove_index], self.heap_list[len(self.heap_list) - 1] = self.heap_list[len(self.heap_list) - 1], self.heap_list[remove_index]
          del self.heap_list[len(self.heap_list) - 1]
